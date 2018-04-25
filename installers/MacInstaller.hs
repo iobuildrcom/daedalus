@@ -1,8 +1,8 @@
-{-# LANGUAGE DataKinds #-}
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE LambdaCase        #-}
 {-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE RecordWildCards   #-}
 module MacInstaller
     ( main
     , SigningConfig(..)
@@ -20,25 +20,30 @@ module MacInstaller
 
 import           Universum
 
-import           Control.Monad (unless)
-import           Data.Text (Text)
-import qualified Data.Text as T
-import           System.Directory (copyFile, createDirectoryIfMissing, doesFileExist, renameFile)
-import           System.FilePath ((</>), FilePath)
-import           System.FilePath.Glob (glob)
+import           Control.Monad             (unless)
+import           Data.Text                 (Text)
+import qualified Data.Text                 as T
 import qualified Filesystem.Path           as P
 import qualified Filesystem.Path.CurrentOS as P
-import           Turtle (Shell, ExitCode (..), echo, proc, procs, inproc, which, Managed, with, printf, (%), l, s, pwd, cd, sh, mktree, export)
-import           Turtle.Line (unsafeTextToLine)
+import           System.Directory          (copyFile, createDirectoryIfMissing,
+                                            doesFileExist, renameFile)
+import           System.FilePath           (FilePath, (</>))
+import           System.FilePath.Glob      (glob)
+import           Turtle                    (ExitCode (..), Managed, Shell, cd,
+                                            echo, export, inproc, l, mktree,
+                                            printf, proc, procs, pwd, s, sh,
+                                            which, with, (%))
+import           Turtle.Line               (unsafeTextToLine)
 
-import           RewriteLibs (chain)
+import           RewriteLibs               (chain)
 
-import           System.IO (hSetBuffering, BufferMode(NoBuffering))
+import           System.IO                 (BufferMode (NoBuffering),
+                                            hSetBuffering)
 
 import           Config
 import           Types
 
-
+
 
 main :: Options -> IO ()
 main opts@Options{..} = do
@@ -112,12 +117,6 @@ makeInstaller opts@Options{..} appRoot = do
       -- Config yaml (generated from dhall files)
       copyFile "launcher-config.yaml" (dir </> "launcher-config.yaml")
       copyFile "wallet-topology.yaml" (dir </> "wallet-topology.yaml")
-
-      -- SSL
-      copyFile "build-certificates-unix.sh" (dir </> "build-certificates-unix.sh")
-      copyFile "ca.conf"     (dir </> "ca.conf")
-      copyFile "server.conf" (dir </> "server.conf")
-      copyFile "client.conf" (dir </> "client.conf")
 
       -- Rewrite libs paths and bundle them
       void $ chain dir $ fmap toText [dir </> "cardano-launcher", dir </> "cardano-node"]

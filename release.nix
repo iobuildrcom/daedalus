@@ -19,7 +19,6 @@ let
     size="$(stat $out/${fn} --printf="%s")"
     echo installerSize $(($size / 1024 / 1024)) MB >> $out/nix-support/hydra-metrics
   '';
-in {
-  mainnet = makeJobs "mainnet";
-  staging = makeJobs "staging";
-}
+  lib = (import ./. {}).pkgs.lib;
+  clusters = lib.splitString " " (builtins.replaceStrings ["\n"] [""] (builtins.readFile ./installer-clusters.cfg));
+in builtins.listToAttrs (map (x: { name = x; value = makeJobs x; }) clusters)

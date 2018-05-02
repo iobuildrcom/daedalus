@@ -8,6 +8,7 @@ let
   networkMap = {
     mainnet = "mainnet";
     staging = "testnet";
+    testnet = "testnet";
   };
 in
 yarn2nix.mkYarnPackage {

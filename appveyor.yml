@@ -15,7 +15,6 @@ environment:
 build: off
 
 cache:
-  - C:\sr -> installers/daedalus-installer.cabal
   - C:\sr -> installers/stack.yaml
 
 install:

@@ -151,7 +151,6 @@ makeInstaller opts@Options{..} componentRoot pkg = do
       pkgargs =
            [ "--identifier"
            , "org."<> fromAppName oAppName <>".pkg"
-           -- data/scripts/postinstall is responsible for running build-certificates
            , "--scripts", scriptsDir
            , "--component"
            , tt componentRoot

@@ -13,6 +13,8 @@
   , nodeLogConfig       : Text
   , nodeLogPath         : Text
   , walletPath          : Text
+  , walletLogging       : Bool
+  , frontendOnlyMode    : Bool
   , updaterPath         : Text
   , updaterArgs         : List Text
   , updateArchive       : Optional Text

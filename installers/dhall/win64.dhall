@@ -19,6 +19,8 @@ in
   , nodeLogPath         = "${dataDir}\\Logs\\cardano-node.log"
 
   , walletPath          = "\${DAEDALUS_DIR}\\Daedalus.exe"
+  , walletLogging       = False
+  , frontendOnlyMode    = False
 
   , updaterPath         = "${dataDir}\\Installer.exe"
   , updaterArgs         = [] : List Text
